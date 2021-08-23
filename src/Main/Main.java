@@ -26,13 +26,8 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
-        setIcon();
         centerFrame();
-    }
-
-    private void setIcon() {
-        Image image = new ImageIcon(this.getClass().getResource("/Images/github-peteruithoven-resizer-icon.png")).getImage();
-        this.setIconImage(image);
+        setIcon();
     }
 
     private void centerFrame() {
@@ -43,6 +38,11 @@ public class Main extends javax.swing.JFrame {
         int dy = centerPoint.y - windowSize.height / 2;
         setLocation(dx, dy);
         setLocationRelativeTo(null);
+    }
+    
+    private void setIcon() {
+        Image image = new ImageIcon(this.getClass().getResource("/Images/github-peteruithoven-resizer-icon.png")).getImage();
+        this.setIconImage(image);
     }
 
     BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
