@@ -1,4 +1,3 @@
-
 package Main;
 
 import java.awt.Dimension;
@@ -39,14 +38,19 @@ public class Main extends javax.swing.JFrame {
         setLocation(dx, dy);
         setLocationRelativeTo(null);
     }
-    
+
     private void setIcon() {
         Image image = new ImageIcon(this.getClass().getResource("/Images/github-peteruithoven-resizer-icon.png")).getImage();
         this.setIconImage(image);
     }
 
-    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight, String type) throws IOException {
+        BufferedImage resizedImage = null;
+        if (type.equals("jpg")) {
+            resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        } else {
+            resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        }
         Graphics2D graphics2D = resizedImage.createGraphics();
         graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
         graphics2D.dispose();
@@ -76,27 +80,27 @@ public class Main extends javax.swing.JFrame {
         boolean control1 = true;
         boolean control2 = true;
         int count2 = heightComboBox.getItemCount();
-        String width = (String) widthComboBox.getSelectedItem();
-        String height = (String) heightComboBox.getSelectedItem();
+        String localWidth = (String) widthComboBox.getSelectedItem();
+        String localHeight = (String) heightComboBox.getSelectedItem();
         widthComboBox.setSelectedItem(null);
         heightComboBox.setSelectedItem(null);
         for (int i = 0; i < count1; i++) {
-            if (widthComboBox.getItemAt(i).equals(width)) {
+            if (widthComboBox.getItemAt(i).equals(localWidth)) {
                 control1 = false;
                 break;
             }
         }
         for (int i = 0; i < count2; i++) {
-            if (heightComboBox.getItemAt(i).equals(height)) {
+            if (heightComboBox.getItemAt(i).equals(localHeight)) {
                 control2 = false;
                 break;
             }
         }
         if (control1) {
-            widthComboBox.addItem(width);
+            widthComboBox.addItem(localWidth);
         }
         if (control2) {
-            heightComboBox.addItem(height);
+            heightComboBox.addItem(localHeight);
         }
     }
 
@@ -104,6 +108,7 @@ public class Main extends javax.swing.JFrame {
         String fileName = outputPathName + "/" + pathName + "_" + width + "x" + height;
         fileName = fileName.replace("/", File.separator);
         try {
+            System.out.println(filePathTextField.getText());
             if (filePathTextField.getText().endsWith("png")) {
                 ImageIO.write(img, "png", new File(fileName + ".png"));
                 fileLocation = fileName + ".png";
@@ -322,7 +327,8 @@ public class Main extends javax.swing.JFrame {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
-                        img = resizeImage(img, width, height);
+                        String type = filePathTextField.getText().substring(filePathTextField.getText().length() - 3, filePathTextField.getText().length());
+                        img = resizeImage(img, width, height, type);
                     } catch (IOException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
