@@ -27,6 +27,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setIcon();
+        centerFrame();
     }
 
     private void setIcon() {
