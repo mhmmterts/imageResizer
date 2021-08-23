@@ -44,19 +44,6 @@ public class Main extends javax.swing.JFrame {
         this.setIconImage(image);
     }
 
-    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight, String type) throws IOException {
-        BufferedImage resizedImage = null;
-        if (type.equals("jpg")) {
-            resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-        } else {
-            resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
-        }
-        Graphics2D graphics2D = resizedImage.createGraphics();
-        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-        graphics2D.dispose();
-        return resizedImage;
-    }
-
     private boolean controlInput() {
         if (widthComboBox.getSelectedItem() == null || widthComboBox.getSelectedItem() == "" || heightComboBox.getSelectedItem() == null || heightComboBox.getSelectedItem() == "") {
             JOptionPane.showMessageDialog(this, "Width or height not set!");
@@ -73,6 +60,19 @@ public class Main extends javax.swing.JFrame {
             return false;
         }
         return true;
+    }
+
+    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight, String type) throws IOException {
+        BufferedImage resizedImage = null;
+        if (type.equals("jpg")) {
+            resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        } else {
+            resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        }
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
     }
 
     private void setCombobox() {
